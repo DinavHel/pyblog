@@ -16,7 +16,7 @@ class HTMLNode:
         html_attr = ''
         for prop in self.props.keys():
             html_attr = f'{html_attr} {prop}="{self.props[prop]}"'
-        return html_attr.strip()
+        return html_attr
 
 
     def __repr__(self):
