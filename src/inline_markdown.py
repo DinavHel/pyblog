@@ -39,3 +39,29 @@ def extract_markdown_links(text):
     for link in links:
         link_list.append(link)
     return link_list
+
+
+def split_nodes_image(old_nodes):
+    new_nodes = []
+    for node in old_nodes:
+        splitted_text = re.split(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", node.text)
+        for i in range(0, len(splitted_text), 3):
+            if splitted_text[i] != "":
+                new_nodes.append(TextNode(text=splitted_text[i], text_type=TextType.TEXT))
+            if len(splitted_text) <= i + 2:
+                continue
+            new_nodes.append(TextNode(text=splitted_text[i + 1], text_type=TextType.IMAGE, url=splitted_text[i + 2]))
+    return new_nodes
+
+
+def split_nodes_link(old_nodes):
+    new_nodes = []
+    for node in old_nodes:
+        splitted_text = re.split(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", node.text)
+        for i in range(0, len(splitted_text), 3):
+            if splitted_text[i] != "":
+                new_nodes.append(TextNode(text=splitted_text[i], text_type=TextType.TEXT))
+            if len(splitted_text) <= i + 2:
+                continue
+            new_nodes.append(TextNode(text=splitted_text[i + 1], text_type=TextType.LINK, url=splitted_text[i + 2]))
+    return new_nodes
